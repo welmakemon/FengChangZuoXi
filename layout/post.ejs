@@ -1,0 +1,108 @@
+<div class="columns">
+    <div class="column is-8 is-offset-2">
+        <div id="post" class="card">
+            <% if (theme.header.autoscroll) { %> 
+                <script>
+                    window.addEventListener("load", ()=>{
+                        let content = document.getElementById("post");
+                        content.scrollIntoView({ 
+                            behavior: "smooth" 
+                        });
+                    });
+                </script>
+            <% } %>
+            <% if (page.thumbnail) { %>
+                <div class="card-iamge">
+                    <figure class="image is-16by9">
+                        <% if (theme.lazyload === true) { %>
+                            <img class="lazy" data-src="<%= page.thumbnail %>" />
+                        <% } else { %>
+                            <img src="<%= page.thumbnail %>" />
+                        <% } %>
+                    </figure>
+                </div>
+            <% } %>
+            <div class="card-content post-card">
+                <h2 class="title has-text-centered">
+                    <%= page.title %>
+                </h2>
+                <% if (page.podcast) { %>
+                    <script>let chapters = [];</script>
+                    <div class="post-podcast-player"></div>
+                        <% if (page.podcast.chapters) { %>
+                            <%
+                                let final = page.podcast.duration;
+                                let timestamps = [];
+                                let data = page.podcast.chapters;
+                                let chapters = [];
+                                (data).forEach((chapter) => {
+                                    timestamps.push(chapter[1]);
+                                });
+                                timestamps.push(final);
+                                for (let index = 0; index < timestamps.length - 1; index++) {
+                                    let start = timestamps[index];
+                                    let end = timestamps[index + 1];
+                                    chapters.push({
+                                        title: data[index][0],
+                                        startTime: start, endTime: end
+                                    });
+                                };
+                            %>
+                            <script>
+                                chapters = JSON.parse('<%- JSON.stringify(chapters) %>');
+                            </script>
+                        <% } %>
+                    <script>
+                        window.addEventListener("load", () => {
+                            if (chapters !== []) Shikwasa.use(Chapter);
+
+                            // Check for local audio media url
+                            let url = "<%= page.podcast.media.url %>";
+                            if (!(url.startsWith("http://") || url.startsWith("https://")))
+                                url = "<%= full_url_for(path, {relative: false}) %>".replace("index.html", '') + url;
+
+                            const player = new Shikwasa({
+                                container: () => document.querySelector('.post-podcast-player'),
+                                audio: {        
+                                    title: "<%= page.title %>",
+                                    artist: "<%= page.podcast.authors %>",
+                                    cover: "<%= page.podcast.cover %>",
+                                    duration: "<%= page.podcast.duration %>",
+                                    src: url,
+                                    chapters: chapters
+                                },
+                                fixed: {
+                                    type: "auto",
+                                    position: "bottom"
+                                },
+                                themeColor: "red",
+                                preload: "metadata",
+                                autoplay: false
+                            });
+                            window.player = player;
+                        }, false);
+                    </script>
+                <% } %>
+                <section class="content is-size-6">
+                    <%- page.content %>
+                </section>
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <% if (page.tags) { %>
+                                <div class="tags">
+                                    <span class="tag">
+                                        <%- date(page.date, theme.timeformat) %>
+                                    </span>
+                                    <% (page.tags).forEach(function(item) { %>
+                                        <span class="tag"># <%= item.name %></span>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

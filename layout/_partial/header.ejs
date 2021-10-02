@@ -1,0 +1,111 @@
+<% if (is_home()) { %> 
+<section class="hero is-<%= theme.header.index %> auto-dark">
+<% } else { %> 
+<section class="hero is-<%= theme.header.other %> auto-dark">
+<% } %>
+    <div class="hero-head">
+        <header class="navbar" aria-label="main navigation">
+            <div class="container">
+                <div class="navbar-brand header-title">
+                    <a class="navbar-item is-uppercase has-text-weight-semibold" href="<%= url_for('/') %>">                        
+                        <%= config.title %>
+                    </a>
+                    <a role="button" class="navbar-burger" data-target="header-menu" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div class="navbar-menu" id="header-menu">
+                    <div class="navbar-end">
+                        <% for (let item of theme.menubar) { %>
+                            <a class="navbar-item is-uppercase" href="<%= item[0] %>">
+                                <%= item[1] %>
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+                <span class="is-size-2 is-family-monospace is-uppercase">
+                    <% if (theme.logo.enable) { %>
+                        <img id="logo" data-src-lightmode="<%= theme.logo.lightmode %>" 
+                             data-src-darkmode="<%= theme.logo.darkmode %>" style="max-width: 200px;" />
+                    <% } else { %>
+                        <%= config.title %>
+                    <% } %>
+                </span>
+            </p>
+            <p class="subtitle is-size-6">
+                <%- config.description %>
+                <% if (theme.navbar) { %> 
+                    <% if (theme.subnav) { %>
+                        <div class="container subnav-top">
+                    <% } else { %>
+                        <div class="container">
+                    <% } %>
+                        <div class="columns subnav-bottom">
+                            <div class="column is-10-mobile is-offset-1-mobile is-one-third is-offset-one-third">
+                                <% for (let index in theme.navbar) { %>
+                                    <% 
+                                        const mapping = theme.navbar[index];
+                                        const link = mapping[0];
+                                        const favicon = mapping[1];
+                                        const description = mapping[2];
+                                        let outter = link.startsWith("https://") ? true : false;
+                                    %>
+                                    <% if (outter) { %>
+                                        <a href="<%= link %>" target="_blank" rel="noopener noreferrer">
+                                    <% } else { %>  
+                                        <a href="<%= link %>">
+                                    <% } %>
+                                        <span class="icon-text">
+                                            <span class="icon">
+                                                <i class="<%= favicon %>"></i>
+                                            </span>
+                                            <span><%= description %></span>
+                                        </span>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+                <% if (theme.subnav) { %>
+                    <div class="container has-text-weight-medium is-size-7">
+                        <div class="columns subnav-bottom">
+                            <div class="column is-10-mobile is-offset-1-mobile is-one-third is-offset-one-third" style="padding: 0%;">
+                                <% for (let index in theme.subnav) { %>
+                                    <% 
+                                        const mapping = theme.subnav[index];
+                                        const link = mapping[0];
+                                        const favicon = mapping[1];
+                                        const description = mapping[2];
+                                        let outter = link.startsWith("https://") ? true : false;
+                                    %>
+                                    <% if (outter) { %>
+                                        <a class="mr-2" href="<%= link %>" target="_blank" rel="noopener noreferrer">
+                                    <% } else { %>  
+                                        <a class="mr-2" href="<%= link %>">
+                                    <% } %>
+                                        <span class="icon-text">
+                                            <span class="icon">
+                                                <i class="<%= favicon %>"></i>
+                                            </span>
+                                            <span><%= description %></span>
+                                        </span>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </p>
+        </div>
+    </div>
+</section>

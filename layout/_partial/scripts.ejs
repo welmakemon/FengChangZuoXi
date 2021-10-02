@@ -1,0 +1,53 @@
+<!-- Lazyload support -->
+<%- js('js/script.min.js') %>
+<% if (theme.lazyload) { %>
+    <script async defer src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.min.js"></script>
+    <script>
+        window.lazyLoadOptions = {
+            elements_selector: ".lazy",
+            threshold: 0,
+            effect: "fadeIn"
+        };
+        window.addEventListener("LazyLoad::Initialized", 
+        function (event) {
+            window.lazyLoader = event.detail.instance;
+        }, false);
+    </script>
+<% } %>
+
+<!-- Highlight.js support -->
+<% if (theme.highlight.enable === true) { %> 
+    <link media="none" onload="media='all'" id="highlight-light-theme" rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/<%= theme.highlight.lightmode %>.min.css">
+    <link media="none" onload="media='all'" id="highlight-dark-theme" rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/<%= theme.highlight.darkmode %>.min.css">
+    <script>
+        window.addEventListener("load", () => {
+            const theme_selector = (mode) => {
+                if (mode === SystemDarkmodePrefrence.dark) {
+                    document.getElementById("highlight-light-theme").setAttribute("disabled", "disabled");
+                    document.getElementById("highlight-dark-theme").removeAttribute("disabled");
+                } else {
+                    document.getElementById("highlight-dark-theme").setAttribute("disabled", "disabled");
+                    document.getElementById("highlight-light-theme").removeAttribute("disabled");
+                }
+            };
+            darklistener.add(theme_selector);
+        }, false);
+    </script>
+<% } %>
+
+<!-- Shikwasa Player support -->
+<% if (is_post() && theme.podcast && page.podcast) { %>
+    <script defer src="https://cdn.jsdelivr.net/npm/shikwasa/dist/shikwasa.min.js"></script>
+    <link media="none" onload="media='all'" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shikwasa/dist/shikwasa.min.css">
+    <% if (page.podcast.chapters) { %>
+        <script defer src="https://cdn.jsdelivr.net/npm/shikwasa/dist/shikwasa.chapter.min.js"></script>
+        <link media="none" onload="media='all'" rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/shikwasa/dist/shikwasa.chapter.min.css">
+    <% } %>  
+<% } %>
+
+<!-- Font Awesome delay loading -->
+<link rel="preload" as="style" onload="this.rel='stylesheet'" rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">

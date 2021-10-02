@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<% if (theme.mourn) { %>
+    <html lang="<%= config.language %>" id="mourn">
+<% } else { %>
+    <html lang="<%= config.language %>">
+<% } %>
+    <%- partial('_partial/head') %>
+    <body>
+        <%- partial('_partial/header') %>
+        <div class="wrapper">
+            <section class="hero">
+                <div class="hero-body">
+                    <div class="container">
+                        <%- body %>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <%- partial('_partial/footer') %> 
+    </body>
+    <%- partial('_partial/scripts') %>
+</html>
