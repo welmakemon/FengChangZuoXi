@@ -4,10 +4,10 @@
 # 在这里填入你的 Logo 地址 - 包括黑暗/白天模式
 # 不要忘记把 enable 改成 true 哦～
 logo:
-  enable: false
-  lightmode: null
-  darkmode: null
-  rss: null
+  enable: true
+  lightmode: true
+  darkmode: false
+  rss: https://github.com/welmakemon/FengChangZuoXi/blob/ecb908721093b3333e3c3c2703a83a98c74a8aa7/IMG_8621.JPG
 
 # Header size
 # Select from: ["fullheight", "large", "medium", "default"]
@@ -69,9 +69,9 @@ highlight:
 # 配置格式：
 #   ['链接地址', '图标类', '图标之后的文字']
 navbar:
-  - ['mailto:privet@utc3.live', 'fa fa-paper-plane', '']
-  - ['https://github.com/guiqiqi/chromate', 'fa fa-github', '']
-  - ['/feed.rss', 'fa fa-rss', '']
+  - ['welmakemon@gmail.com', 'fa fa-paper-plane', 'E-mail聯絡']
+  - ['https://github.com/welmakemon/FengChangZuoXi.git', 'fa fa-github', 'Github']
+  - ['/feed.rss', 'fa fa-rss', 'Rss訂閱']
 
 # Subnav configuration will show below navbar with a horizontal divider
 # Configuration format as same as previous
@@ -115,10 +115,10 @@ rss:
   enable: true
   path: '/feed.rss'
   config:
-    email: 'privet@utc3.live'
+    email: 'welmakemon@gmail.com'
     category: {
-      'Education': ['How To', 'Language Learning'],
-      'Technology': []
+      'Education': ['Movie', 'Comment'],
+      'Art': []
     }
     explicit: false
 
